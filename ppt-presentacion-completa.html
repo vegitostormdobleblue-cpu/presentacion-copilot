@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación - Copilot for Security</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            padding: 60px 80px;
+            position: relative;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* SLIDE 1 - PORTADA */
+        #slide1 {
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #slide1 .logo {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        #slide1 .logo::before {
+            content: "🛡️";
+            font-size: 60px;
+        }
+
+        #slide1 h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        #slide1 .subtitle {
+            font-size: 32px;
+            margin-bottom: 60px;
+            opacity: 0.9;
+        }
+
+        #slide1 .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 300px);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        #slide1 .info-box {
+            background: rgba(255,255,255,0.2);
+            padding: 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        #slide1 .info-label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        #slide1 .info-value {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* SLIDES NORMALES */
+        .slide-header {
+            border-bottom: 5px solid #0078D4;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .slide-header h2 {
+            font-size: 42px;
+            color: #0078D4;
+        }
+
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* SLIDE 2 - CRONOGRAMA */
+        .timeline-header {
+            background: #E8F4F8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #0078D4;
+        }
+
+        .fase {
+            margin-bottom: 25px;
+            border-left: 4px solid #DDD;
+            padding-left: 20px;
+        }
+
+        .fase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .fase-titulo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .fase-duracion {
+            background: #0078D4;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .fase-info {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .fase-tareas {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .hitos-box {
+            background: #FFF9E6;
+            border-left: 4px solid #FFC107;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .hitos-box h3 {
+            color: #F57C00;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .hitos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* SLIDE 3 - COSTES */
+        .costes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .coste-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .coste-card.blue {
+            background: #E3F2FD;
+            border: 2px solid #0078D4;
+        }
+
+        .coste-card.green {
+            background: #E8F5E9;
+            border: 2px solid #4CAF50;
+        }
+
+        .coste-card.purple {
+            background: #F3E5F5;
+            border: 2px solid #9C27B0;
+        }
+
+        .coste-valor {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .coste-card.blue .coste-valor { color: #0078D4; }
+        .coste-card.green .coste-valor { color: #4CAF50; }
+        .coste-card.purple .coste-valor { color: #9C27B0; }
+
+        .coste-label {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .coste-detalle {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .presupuesto-box {
+            border: 2px solid #DDD;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .presupuesto-box h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .presupuesto-linea {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #EEE;
+            font-size: 18px;
+        }
+
+        .presupuesto-linea.destacado {
+            background: #E8F4F8;
+            padding: 12px 15px;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+
+        .presupuesto-linea.total {
+            background: #C8E6C9;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .eva-note {
+            background: #E3F2FD;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* SLIDE 4 - CALIDAD Y RIESGOS */
+        .dos-columnas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            height: 100%;
+        }
+
+        .columna {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .seccion-header {
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid;
+        }
+
+        .seccion-header.calidad {
+            background: #E8F5E9;
+            border-left-color: #4CAF50;
+        }
+
+        .seccion-header.riesgos {
+            background: #FFEBEE;
+            border-left-color: #F44336;
+        }
+
+        .seccion-header h3 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .seccion-header.calidad h3 { color: #2E7D32; }
+        .seccion-header.riesgos h3 { color: #C62828; }
+
+        .seccion-header p {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .metrica-box {
+            background: white;
+            border: 1px solid #DDD;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .metrica-titulo {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .metrica-detalle {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .riesgo-box {
+            background: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .riesgo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .riesgo-titulo {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .riesgo-nivel {
+            background: #FF9800;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .riesgo-prob {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .riesgo-mitigacion {
+            font-size: 12px;
+            color: #333;
+        }
+
+        .info-adicional {
+            background: #FFF9E6;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        /* SLIDE 5 - CONCLUSIONES */
+        .beneficios-banner {
+            background: linear-gradient(135deg, #0078D4, #005A9E);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .beneficios-banner h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .beneficios-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .beneficio-card {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .beneficio-numero {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .beneficio-texto {
+            font-size: 14px;
+        }
+
+        .factores-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .factor-box {
+            border: 3px solid;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .factor-box.exito {
+            border-color: #4CAF50;
+        }
+
+        .factor-box.pasos {
+            border-color: #0078D4;
+        }
+
+        .factor-box h4 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .factor-box.exito h4 { color: #2E7D32; }
+        .factor-box.pasos h4 { color: #0078D4; }
+
+        .factor-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .factor-box li {
+            font-size: 15px;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .factor-box li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: 700;
+        }
+
+        .criterio-box {
+            background: #E3F2FD;
+            border-left: 4px solid #0078D4;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .criterio-box h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #0078D4;
+        }
+
+        .footer-info {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        /* NAVEGACIÓN */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #0078D4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #005A9E;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #CCC;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        .help-text {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+
+        @media print {
+            .slide {
+                display: flex !important;
+                page-break-after: always;
+                height: 100vh;
+            }
+            .nav-buttons, .slide-counter, .help-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SLIDE 1: PORTADA -->
+    <div class="slide active" id="slide1">
+        <div class="logo"></div>
+        <h1>Copilot for Security en SOC</h1>
+        <p class="subtitle">Automatización de Detección de Amenazas</p>
+        
+        <div class="info-grid">
+            <div class="info-box">
+                <div class="info-label">Alumno</div>
+                <div class="info-value">Cristopher Garcia Riera</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">Unidad</div>
+                <div class="info-value">U6 - Planning Computing Project</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">Duración</div>
+                <div class="info-value">12 semanas</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">Presupuesto</div>
+                <div class="info-value">46,200 €</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: CRONOGRAMA -->
+    <div class="slide" id="slide2">
+        <div class="slide-header">
+            <h2>Cronograma del Proyecto</h2>
+        </div>
+        
+        <div class="slide-content">
+            <div class="timeline-header">
+                ⏱️ Duración total: 12 semanas (84 días laborables)
+            </div>
+
+            <div class="fase">
+                <div class="fase-header">
+                    <div>
+                        <div class="fase-titulo">Fase 1: Análisis del SOC</div>
+                        <div class="fase-info">Semanas 1-2 • 15 días</div>
+                    </div>
+                    <div class="fase-duracion">15d</div>
+                </div>
+                <div class="fase-tareas">Mapeo procesos, identificación alertas, casos de uso</div>
+            </div>
+
+            <div class="fase">
+                <div class="fase-header">
+                    <div>
+                        <div class="fase-titulo">Fase 2: Implementación</div>
+                        <div class="fase-info">Semanas 3-6 • 30 días</div>
+                    </div>
+                    <div class="fase-duracion">30d</div>
+                </div>
+                <div class="fase-tareas">Instalación Copilot, integraciones, playbooks</div>
+            </div>
+
+            <div class="fase">
+                <div class="fase-header">
+                    <div>
+                        <div class="fase-titulo">Fase 3: Piloto y Ajustes</div>
+                        <div class="fase-info">Semanas 7-10 • 30 días</div>
+                    </div>
+                    <div class="fase-duracion">30d</div>
+                </div>
+                <div class="fase-tareas">Pruebas reales, tuning IA, validación métricas</div>
+            </div>
+
+            <div class="fase">
+                <div class="fase-header">
+                    <div>
+                        <div class="fase-titulo">Fase 4: Cierre</div>
+                        <div class="fase-info">Semanas 11-12 • 15 días</div>
+                    </div>
+                    <div class="fase-duracion">15d</div>
+                </div>
+                <div class="fase-tareas">Documentación, formación, certificación</div>
+            </div>
+
+            <div class="hitos-box">
+                <h3>🎯 Hitos Críticos</h3>
+                <div class="hitos-grid">
+                    <div>✓ H1: Análisis completado (S2)</div>
+                    <div>✓ H2: Copilot instalado (S6)</div>
+                    <div>✓ H3: Piloto exitoso (S10)</div>
+                    <div>✓ H4: Proyecto cerrado (S12)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: COSTES -->
+    <div class="slide" id="slide3">
+        <div class="slide-header">
+            <h2>Gestión de Costes</h2>
+        </div>
+        
+        <div class="slide-content">
+            <div class="costes-grid">
+                <div class="coste-card blue">
+                    <div class="coste-valor">15,000 €</div>
+                    <div class="coste-label">Licencias (37.5%)</div>
+                    <div class="coste-detalle">Microsoft Copilot 3 meses</div>
+                </div>
+                <div class="coste-card green">
+                    <div class="coste-valor">20,000 €</div>
+                    <div class="coste-label">Consultoría (50%)</div>
+                    <div class="coste-detalle">160 horas @ 125 €/h</div>
+                </div>
+                <div class="coste-card purple">
+                    <div class="coste-valor">5,000 €</div>
+                    <div class="coste-label">Formación (12.5%)</div>
+                    <div class="coste-detalle">40 horas capacitación</div>
+                </div>
+            </div>
+
+            <div class="presupuesto-box">
+                <h3>Desglose Presupuestario</h3>
+                <div class="presupuesto-linea">
+                    <span>Coste Base del Proyecto</span>
+                    <span>40,000 €</span>
+                </div>
+                <div class="presupuesto-linea">
+                    <span>+ Reserva de Contingencia (10%)</span>
+                    <span style="color: #0078D4;">4,000 €</span>
+                </div>
+                <div class="presupuesto-linea destacado">
+                    <span>= Línea Base de Coste</span>
+                    <span>44,000 €</span>
+                </div>
+                <div class="presupuesto-linea">
+                    <span>+ Reserva de Gestión (5%)</span>
+                    <span style="color: #FF9800;">2,200 €</span>
+                </div>
+                <div class="presupuesto-linea total">
+                    <span>PRESUPUESTO TOTAL</span>
+                    <span>46,200 €</span>
+                </div>
+            </div>
+
+            <div class="eva-note">
+                📊 Control EVA: Mediciones semanales con umbrales CPI ≥ 0.95 y SPI ≥ 0.95
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: CALIDAD Y RIESGOS -->
+    <div class="slide" id="slide4">
+        <div class="slide-header">
+            <h2>Calidad y Gestión de Riesgos</h2>
+        </div>
+        
+        <div class="slide-content">
+            <div class="dos-columnas">
+                <!-- COLUMNA CALIDAD -->
+                <div class="columna">
+                    <div class="seccion-header calidad">
+                        <h3>✓ Gestión de Calidad</h3>
+                        <p>Objetivo: Six Sigma 4σ (99.38% eficiencia)</p>
+                    </div>
+
+                    <div class="metrica-box">
+                        <div class="metrica-titulo">Tiempo de Respuesta</div>
+                        <div class="metrica-detalle">De 4h a 1.5h (62.5% mejora)</div>
+                    </div>
+                    <div class="metrica-box">
+                        <div class="metrica-titulo">Falsos Positivos</div>
+                        <div class="metrica-detalle">De 70% a <30% (57% mejora)</div>
+                    </div>
+                    <div class="metrica-box">
+                        <div class="metrica-titulo">Automatización</div>
+                        <div class="metrica-detalle">60% alertas nivel 1 sin intervención</div>
+                    </div>
+                    <div class="metrica-box">
+                        <div class="metrica-titulo">Disponibilidad Sistema</div>
+                        <div class="metrica-detalle">99.5% uptime garantizado</div>
+                    </div>
+
+                    <div class="info-adicional">
+                        <strong>🔍 Auditorías de Calidad:</strong><br>
+                        4 auditorías (semanas 2, 6, 10, 12) por CISO y CTO
+                    </div>
+                </div>
+
+                <!-- COLUMNA RIESGOS -->
+                <div class="columna">
+                    <div class="seccion-header riesgos">
+                        <h3>⚠ Gestión de Riesgos</h3>
+                        <p>EMV Total: 3,750€ (cubierto por reserva)</p>
+                    </div>
+
+                    <div class="riesgo-box">
+                        <div class="riesgo-header">
+                            <div class="riesgo-titulo">R01: Resistencia equipo SOC</div>
+                            <div class="riesgo-nivel">MEDIO</div>
+                        </div>
+                        <div class="riesgo-prob">Probabilidad: Alta (60%)</div>
+                        <div class="riesgo-mitigacion">Mitigación: Involucrar desde día 1, demos</div>
+                    </div>
+
+                    <div class="riesgo-box">
+                        <div class="riesgo-header">
+                            <div class="riesgo-titulo">R02: Falsos positivos IA</div>
+                            <div class="riesgo-nivel">MEDIO</div>
+                        </div>
+                        <div class="riesgo-prob">Probabilidad: Media (40%)</div>
+                        <div class="riesgo-mitigacion">Mitigación: Fase tuning 30 días, ajustes</div>
+                    </div>
+
+                    <div class="riesgo-box">
+                        <div class="riesgo-header">
+                            <div class="riesgo-titulo">R03: Incompatibilidad Sentinel</div>
+                            <div class="riesgo-nivel">MEDIO</div>
+                        </div>
+                        <div class="riesgo-prob">Probabilidad: Baja (15%)</div>
+                        <div class="riesgo-mitigacion">Mitigación: Validación previa Microsoft</div>
+                    </div>
+
+                    <div class="info-adicional">
+                        <strong>⚠️ Plan Contingencia:</strong><br>
+                        Activación si 2+ riesgos MEDIO/ALTO se materializan
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: CONCLUSIONES -->
+    <div class="slide" id="slide5">
+        <div class="slide-header">
+            <h2>Conclusiones y Próximos Pasos</h2>
+        </div>
+        
+        <div class="slide-content">
+            <div class="beneficios-banner">
+                <h3>🎯 Beneficios Esperados</h3>
+                <div class="beneficios-grid">
+                    <div class="beneficio-card">
+                        <div class="beneficio-numero">62.5%</div>
+                        <div class="beneficio-texto">Reducción tiempo respuesta</div>
+                    </div>
+                    <div class="beneficio-card">
+                        <div class="beneficio-numero">57%</div>
+                        <div class="beneficio-texto">Reducción falsos positivos</div>
+                    </div>
+                    <div class="beneficio-card">
+                        <div class="beneficio-numero">60%</div>
+                        <div class="beneficio-texto">Automatización alertas</div>
+                    </div>
+                    <div class="beneficio-card">
+                        <div class="beneficio-numero">20h</div>
+                        <div class="beneficio-texto">Ahorro semanal equipo</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="factores-grid">
+                <div class="factor-box exito">
+                    <h4>✅ Factores de Éxito</h4>
+                    <ul>
+                        <li>Alcance acotado y medible</li>
+                        <li>Herramienta específica (Copilot)</li>
+                        <li>Equipo comprometido (3 analistas)</li>
+                        <li>Presupuesto ajustado con reservas</li>
+                        <li>Métricas Six Sigma claras</li>
+                    </ul>
+                </div>
+
+                <div class="factor-box pasos">
+                    <h4>🚀 Próximos Pasos (S1)</h4>
+                    <ul>
+                        <li>Reunión kick-off con SOC</li>
+                        <li>Solicitud licencias trial Microsoft</li>
+                        <li>Análisis top 5 alertas frecuentes</li>
+                        <li>Establecer métricas baseline</li>
+                        <li>Validación técnica Sentinel</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="criterio-box">
+                <h4>📋 Criterio de Éxito Final</h4>
+                <p>Proyecto exitoso si: Tiempo respuesta ≤1.5h • Falsos positivos <30% • 3 analistas certificados • 0 incidentes críticos en primeros 30 días</p>
+            </div>
+
+            <div class="footer-info">
+                <p>Cristopher Garcia Riera | MSMK University | HND Computer Science & AI</p>
+                <p style="font-size: 12px; margin-top: 5px;">Proyecto: Implementación Microsoft Copilot for Security en SOC</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN -->
+    <div class="slide-counter">Slide <span id="current">1</span> de 5</div>
+    <div class="help-text">💡 Usa las flechas ← → o los botones para navegar</div>
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="cambiarSlide(-1)">← Anterior</button>
+        <button class="nav-btn" id="nextBtn" onclick="cambiarSlide(1)">Siguiente →</button>
+    </div>
+
+    <script>
+        let slideActual = 1;
+        const totalSlides = 5;
+
+        function mostrarSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) slideActual = totalSlides;
+            if (n < 1) slideActual = 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[slideActual - 1].classList.add('active');
+            
+            document.getElementById('current').textContent = slideActual;
+            
+            // Actualizar botones
+            document.getElementById('prevBtn').disabled = slideActual === 1;
+            document.getElementById('nextBtn').disabled = slideActual === totalSlides;
+        }
+
+        function cambiarSlide(direccion) {
+            slideActual += direccion;
+            mostrarSlide(slideActual);
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                cambiarSlide(1);
+                e.preventDefault();
+            } else if (e.key === 'ArrowLeft') {
+                cambiarSlide(-1);
+                e.preventDefault();
+            } else if (e.key === 'Home') {
+                slideActual = 1;
+                mostrarSlide(slideActual);
+            } else if (e.key === 'End') {
+                slideActual = totalSlides;
+                mostrarSlide(slideActual);
+            }
+        });
+
+        // Inicializar
+        mostrarSlide(slideActual);
+    </script>
+</body>
+</html>
